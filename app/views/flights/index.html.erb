@@ -1,0 +1,25 @@
+<h1>Rechercher un vol</h1>
+
+<%= simple_form_for :search, method: :get do |f| %>
+  <%= f.input :departure_code, label: 'Departure airport', collection: @airports.pluck(:airport_code, :id), include_blank: false%>
+  <br>
+  <%= f.input :arrival_code, label: 'Arrival airport', collection: @airports.pluck(:airport_code, :id), include_blank: false %>
+  <br>
+  <%= f.input :departure_date, as: :date, label: 'Date de départ', input_html: {class: 'form-datepicker'}, include_blank: false %>
+  <br>
+  <%= f.button :submit, 'Rechercher'%>
+<% end %>
+
+	<% if params[:search] %>
+		<p>Le formulaire vient d'être soumis c'est de la 💣</p>
+		<ul> 
+			<% @flights.each do |f| %>
+			<li><%= @airports.find(f.departure_airport_id).airport_code %> - <%= @airports.find(f.arrival_airport_id).airport_code %> - <%= f.departure_date %>
+			</li> 
+			<% end %>
+		</ul>
+	<% else %>
+		<p>Je n'ai toujours pas appuyé sur le submit button 🚨</p>
+	<% end %>
+
+
